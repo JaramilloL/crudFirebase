@@ -96,7 +96,7 @@ const LoginAuth = () => {
           },
         })}
       />
-      <Box mt={2}>
+      <Box mt={2} display={'flex'} justifyContent={'end'} mb={2}>
         <Link
           to=""
           style={{ textDecoration: "none", color: "black" }}
@@ -110,7 +110,7 @@ const LoginAuth = () => {
           {errorMessages}
         </Box>
       )}
-      <Box display={"flex"} justifyContent={"space-evenly"} mt={2}>
+      <Box display={"flex"} flexDirection={'column'} gap={1} justifyContent={"center"} alignContent={'center'} mt={2} width={"50%"} m={"0 auto"}>
         <Button variant="contained" color="primary" type="submit">
           Login
         </Button>
