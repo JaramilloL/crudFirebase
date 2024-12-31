@@ -1,4 +1,4 @@
-import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../../firebase/firebaseConfig";
 import { useContext, useEffect, useState } from "react";
 import TaskCard from "./TaskCard";
@@ -26,9 +26,19 @@ const Task = () => {
     return ()=> unsubscribe();
 } , [q])
 
+    //creamos una funcion para eliminar tareas
+    const deleteTask = async (id) => {
+        try {
+            console.log("id: ", id);
+            await deleteDoc(doc(db, "taskCRUD", id));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
   return (
     <div>
-        <TaskCard task={task} />
+        <TaskCard task={task} deleteTask={deleteTask} />
     </div>
   )
 }
