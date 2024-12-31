@@ -1,18 +1,24 @@
-import { useContext } from "react"
-import { CreateContext } from "../../context/CreteContext"
-import { Navigate } from "react-router-dom";
+import { useContext } from "react";
+import { CreateContext } from "../../context/CreteContext";
+import { Link, Navigate } from "react-router-dom";
+import DrawerList from "./DrawerList";
+import TaskAll from "../tasks/TaskAll";
 import { Button } from "@mui/material";
 
 const Home = () => {
-    const { user, logout } = useContext(CreateContext);
-    console.log(user && user.email)
+  const { user } = useContext(CreateContext);
+  console.log(user && user.email);
 
-    if (!user) return <Navigate to='/'/>
+  if (!user) return <Navigate to="/" />;
   return (
     <div>
-        <Button variant="contained" color="primary" onClick={logout}>Logout</Button>
+      <DrawerList />
+      <Button variant="outlined" color="primary" >
+        <Link to="/createTasks" style={{ textDecoration: "none", color: "blue"}}>Crear Tarea</Link>
+      </Button>
+      <TaskAll />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
