@@ -24,7 +24,7 @@ const ModalUpdate = ({ open, handleClose, task }) => {
         sx={{ backgroundColor: "rgba(12, 22, 0, 0.5)" }}
       >
         <Box style={style}>
-          <UpdateTask task={task}/>
+          { task && <UpdateTask task={task}/>}
         </Box>
       </Modal>
     </div>
