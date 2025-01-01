@@ -3,6 +3,8 @@ import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { CreateContext } from "../../context/CreteContext";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { errorsRegister } from "../../utils/Errors";
 const RegisterAuth = () => {
   //traemos la funcion para registrar un usuario
   const { registerUser } = useContext(CreateContext);
@@ -22,10 +24,17 @@ const RegisterAuth = () => {
     try {
       await registerUser(data.email, data.password);
       console.log(data);
+      toast.success("Usuario registrado correctamente");
       reset();
       await navigateToHome("/home");
     } catch (error) {
       console.log(error);
+      if(error){
+        const foundError = errorsRegister.find(err => err.code === error.code)
+        toast.error(foundError.message)
+      }else{
+        toast.error("error desconocido: " + error.code)
+      }
     }
   };
   return (

@@ -8,7 +8,19 @@ import {
   Typography,
 } from "@mui/material";
 import PropTypes from "prop-types";
-const TaskCard = ({ task, deleteTask }) => {
+import ModalUpdate from "./createTasks/ModalUpdate";
+import { useState } from "react";
+const TaskCard = ({ task, deleteTask  }) => {
+  const [open, setOpen] = useState(false)
+  const [selectedTask, setSelectedTask] = useState(null)
+
+  const handleOpen = (ts) => {
+    setSelectedTask(ts)
+    setOpen(true)
+  }
+
+  const handleClose = ()=> setOpen(false)
+
   return (
     <Box
       display="flex"
@@ -51,9 +63,13 @@ const TaskCard = ({ task, deleteTask }) => {
             >
               Eliminar
             </Button>
+            <Button size="small" color="primary" onClick={()=> handleOpen(ts)}>
+              Editar
+            </Button>
           </CardActions>
         </Card>
       ))}
+     <ModalUpdate open={open} handleClose={handleClose} task={selectedTask} />
     </Box>
   );
 };

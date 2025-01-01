@@ -5,6 +5,8 @@ import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { CreateContext } from "../../context/CreteContext";
+import { toast, ToastContainer } from "react-toastify";
+import { errorsGoogleLogin, errorsLogin } from "../../utils/Errors";
 
 const LoginAuth = () => {
   //creamos un estafo para controlar los errores
@@ -27,10 +29,18 @@ const LoginAuth = () => {
     try {
       console.log(data);
       await loginUser(data.email, data.password);
+      toast.success("Usuario logueado correctamente");
       reset();
       navigateToHome("/home");
     } catch (error) {
       console.log(error);
+      if (error) {
+        const foundError = errorsLogin.find((err) => err.code === error.code);
+
+        toast.error(foundError.message);
+      } else {
+        toast.error("error desconocido: ", +error.code);
+      }
     }
     console.log(data);
     reset();
@@ -49,11 +59,18 @@ const LoginAuth = () => {
   const loginGoogleAuth = async () => {
     try {
       await signInGoogle();
+      toast.success('Usuario logueado correctamente');
       navigateToHome("/home");
     } catch (error) {
       console.log(error);
+      if(error){
+        const foundError = errorsGoogleLogin.find((err) => err.code === error.code);
+        toast.error(foundError.message);
+      }else{
+        toast.error("error desconocido: ", + error.code);
+      }
     }
-  }
+  };
 
   return (
     <Box
@@ -96,7 +113,7 @@ const LoginAuth = () => {
           },
         })}
       />
-      <Box mt={2} display={'flex'} justifyContent={'end'} mb={2}>
+      <Box mt={2} display={"flex"} justifyContent={"end"} mb={2}>
         <Link
           to=""
           style={{ textDecoration: "none", color: "black" }}
@@ -110,7 +127,16 @@ const LoginAuth = () => {
           {errorMessages}
         </Box>
       )}
-      <Box display={"flex"} flexDirection={'column'} gap={1} justifyContent={"center"} alignContent={'center'} mt={2} width={"50%"} m={"0 auto"}>
+      <Box
+        display={"flex"}
+        flexDirection={"column"}
+        gap={1}
+        justifyContent={"center"}
+        alignContent={"center"}
+        mt={2}
+        width={"50%"}
+        m={"0 auto"}
+      >
         <Button variant="contained" color="primary" type="submit">
           Login
         </Button>
@@ -123,6 +149,7 @@ const LoginAuth = () => {
           </Link>
         </Button>
       </Box>
+      <ToastContainer/>
     </Box>
   );
 };
